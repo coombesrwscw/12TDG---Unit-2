@@ -1,0 +1,49 @@
+import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
+
+def animate_wheel(labels):
+    slices = [1] * len(labels)
+
+    fig, ax = plt.subplots(figsize=(8, 8))
+
+    def update(frame):
+        ax.clear()
+
+        ax.pie(
+            slices,
+            labels=labels,
+            startangle=frame,
+            labeldistance=0.7,
+            wedgeprops={"edgecolor": "black", "linewidth": 2}
+        )
+
+        # Fixed pointer at top
+        ax.plot([0], [1.15], marker='v', markersize=20, color='red')
+
+        ax.set_aspect('equal')
+        ax.set_title("Spinning Wheel")
+
+    ani = FuncAnimation(
+        fig,
+        update,
+        frames=range(360),
+        interval=20,
+        repeat=True
+    )
+
+    plt.show()
+
+    return ani
+
+
+labels = [
+    "Attack",
+    "Defend",
+    "Heal",
+    "Run",
+    "Search",
+    "Trade",
+    "Rest"
+]
+
+animation = animate_wheel(labels)
