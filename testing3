@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 
+# Function to create and animate the spinning wheel
 def animate_wheel(labels):
     slices = [1] * len(labels)
 
@@ -9,7 +10,8 @@ def animate_wheel(labels):
     def update(frame):
         ax.clear()
 
-        ax.pie(
+        # Draws the pie chart with the current frame as the starting angle
+        ax.pie( 
             slices,
             labels=labels,
             startangle=frame,
@@ -17,33 +19,38 @@ def animate_wheel(labels):
             wedgeprops={"edgecolor": "black", "linewidth": 2}
         )
 
-        # Fixed pointer at top
-        ax.plot([0], [1.15], marker='v', markersize=20, color='red')
+        ax.plot([0], [1], marker='v', markersize=20, color='red') # Fixed pointer at top of wheel
 
         ax.set_aspect('equal')
-        ax.set_title("Spinning Wheel")
+        ax.set_title(wheel_name) # Title - will eventually be user input
 
+    # Animates the wheel - MAKE THIS SMOOTHER - will eventually be user input for starting the animation - will also need to be able to stop the animation and select the winning segment
     ani = FuncAnimation(
         fig,
         update,
-        frames=range(360),
-        interval=20,
-        repeat=True
+        frames=range(360*spin_repeats),
+        interval=10,
+        repeat=False
     )
 
     plt.show()
 
     return ani
 
-
+# List of labels for the wheel segments - will eventually be user input (wheel ajustable to # of labels)
 labels = [
-    "Attack",
-    "Defend",
-    "Heal",
-    "Run",
-    "Search",
-    "Trade",
-    "Rest"
+    "option1",
+    "option2",
+    "option3",
+    "option4",
+    "option5",
+    "option6",
+    "option7",
+    "option8",
 ]
+
+wheel_name = "My Spinning Wheel (to be updated)"  # Title for the wheel - will eventually be user input
+
+spin_repeats = 5  # Number of times the wheel will spin - will eventually be user input
 
 animation = animate_wheel(labels)
