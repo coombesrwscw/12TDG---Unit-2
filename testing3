@@ -1,3 +1,5 @@
+import random
+import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 
@@ -9,12 +11,12 @@ def animate_wheel(labels):
 
     def update(frame):
         ax.clear()
-
+        spin_speed = 10 * np.exp (-frame / 100)  # Adjust this value to change the speed of the spin - will eventually be user input
         # Draws the pie chart with the current frame as the starting angle
         ax.pie( 
             slices,
             labels=labels,
-            startangle=frame,
+            startangle=frame*spin_speed, # Adjust the speed of the spin by changing the multiplier
             labeldistance=0.7,
             wedgeprops={"edgecolor": "black", "linewidth": 2}
         )
@@ -24,13 +26,13 @@ def animate_wheel(labels):
         ax.set_aspect('equal')
         ax.set_title(wheel_name) # Title - will eventually be user input
 
-    # Animates the wheel - MAKE THIS SMOOTHER - will eventually be user input for starting the animation - will also need to be able to stop the animation and select the winning segment
+    # Animates the wheel - MAKE THIS SMOOTHER AND FASTER - will eventually be user input for starting the animation - will also need to be able to stop the animation and select the winning segment
     ani = FuncAnimation(
         fig,
         update,
         frames=range(360*spin_repeats),
         interval=10,
-        repeat=False
+        repeat=False,
     )
 
     plt.show()
@@ -51,6 +53,6 @@ labels = [
 
 wheel_name = "My Spinning Wheel (to be updated)"  # Title for the wheel - will eventually be user input
 
-spin_repeats = 5  # Number of times the wheel will spin - will eventually be user input
+spin_repeats = random.uniform(3,4) # Number of times the wheel will spin - will eventually be user input
 
 animation = animate_wheel(labels)
