@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 
+
 # Function to create and animate the spinning wheel
 def animate_wheel(labels):
     slices = [1] * len(labels)
@@ -11,12 +12,12 @@ def animate_wheel(labels):
 
     def update(frame):
         ax.clear()
-        spin_speed = 10 * np.exp (-frame / 100)  # Adjust this value to change the speed of the spin - will eventually be user input
+        spin_speed = (10 + spin_repeats * 20) * np.exp (-frame / 60)  # Adjust (10+spin_repeats*10) value to change the speed of the spin - Adjust the exponential decay factor (-frame/100) to change how quickly the spin slows down
         # Draws the pie chart with the current frame as the starting angle
         ax.pie( 
             slices,
             labels=labels,
-            startangle=frame*spin_speed, # Adjust the speed of the spin by changing the multiplier
+            startangle=frame*spin_speed,
             labeldistance=0.7,
             wedgeprops={"edgecolor": "black", "linewidth": 2}
         )
@@ -30,8 +31,20 @@ def animate_wheel(labels):
     ani = FuncAnimation(
         fig,
         update,
-        frames=range(360*spin_repeats),
+        frames=range(360, int(360 * (spin_repeats - 2))),  # Adjust the number of frames based on the number of spins
         interval=10,
+        if frame==0:
+            def update(frame):
+                ax.clear()
+                spin_speed = (10 + spin_repeats * 20) * np.exp (-frame / 60)  # Adjust (10+spin_repeats*10) value to change the speed of the spin - Adjust the exponential decay factor (-frame/100) to change how quickly the spin slows down
+                # Draws the pie chart with the current frame as the starting angle
+                ax.pie( 
+                    slices,
+                    labels=labels,
+                    startangle=frame*spin_speed,
+                    labeldistance=0.7,
+                    wedgeprops={"edgecolor": "black", "linewidth": 2}
+                )
         repeat=False,
     )
 
@@ -53,6 +66,6 @@ labels = [
 
 wheel_name = "My Spinning Wheel (to be updated)"  # Title for the wheel - will eventually be user input
 
-spin_repeats = random.uniform(3,4) # Number of times the wheel will spin - will eventually be user input
+spin_repeats = random.uniform(3,4) # Number of times the wheel will spin - will eventually be random
 
 animation = animate_wheel(labels)
